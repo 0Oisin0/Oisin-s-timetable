@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>St Joseph's Class 2A • Oisin Healy</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            slateBg: '#f8fafc',
+            cardBg: '#ffffff',
+            borderSubtle: '#e2e8f0',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Floating toast gem popup animations */
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translateY(15px) scale(0.8); }
+      20% { opacity: 1; transform: translateY(0) scale(1.1); }
+      80% { opacity: 1; transform: translateY(-20px) scale(1); }
+      100% { opacity: 0; transform: translateY(-35px) scale(0.9); }
+    }
+    .animate-float-toast {
+      animation: floatUpFade 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Glassmorphic modal overlays */
+    .modal-backdrop {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Pulse active current class card */
+    @keyframes gentlePulse {
+      0%, 100% { border-color: #3b82f6; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+      50% { border-color: #2563eb; box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1); }
+    }
+    .active-class-pulse {
+      animation: gentlePulse 3s infinite;
+    }
+
+    /* Subject Badges Soft Pastel Palettes */
+    .badge-business { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-maths { background-color: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+    .badge-spanish { background-color: #ccfbf1; color: #115e59; border: 1px solid #99f6e4; }
+    .badge-coding { background-color: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .badge-english { background-color: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+    .badge-science { background-color: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
+    .badge-history { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+    .badge-irish { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+    .badge-drama { background-color: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
+    .badge-woodtech { background-color: #f5f5f4; color: #78350f; border: 1px solid #e7e5e4; }
+    .badge-re { background-color: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
+    .badge-pe { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-default { background-color: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 pb-12 flex flex-col">
+
+  <!-- Floating Toast Notifications Container -->
+  <div id="toastContainer" class="fixed top-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Top Navigation / Branding Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Class & Student Info -->
+      <div class="flex items-center gap-3 text-center sm:text-left">
+        <div class="w-11 h-11 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg shadow-md">
+          2A
+        </div>
+        <div>
+          <div class="flex items-center gap-2 justify-center sm:justify-start">
+            <h1 class="font-bold text-lg text-slate-900 leading-tight">Oisin Healy</h1>
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">Class 2A</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">St Joseph's • Academic Year 2026</p>
+        </div>
+      </div>
+
+      <!-- Live Clock & Status Badge -->
+      <div class="hidden md:flex flex-col items-center justify-center bg-slate-50 px-4 py-1.5 rounded-xl border border-slate-200">
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          Dublin Time
+        </div>
+        <div id="headerLiveClock" class="text-base font-extrabold text-slate-800 font-mono">00:00:00</div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="flex items-center gap-2 flex-wrap justify-center sm:justify-end">
+        <!-- Gem Balance Pill (Opens Gem Hub) -->
+        <button onclick="openGemHub('balance')" class="flex items-center gap-2 bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 text-amber-900 font-bold px-3.5 py-2 rounded-xl border border-amber-300 shadow-sm transition active:scale-95 group">
+          <span class="text-lg group-hover:scale-125 transition-transform duration-200">💎</span>
+          <span id="headerGemCount" class="text-base font-extrabold">0</span>
+          <span class="text-xs font-semibold uppercase tracking-wider opacity-75 hidden sm:inline">Gems</span>
+        </button>
+
+        <!-- Chimes Toggle Button -->
+        <button id="chimesToggleBtn" onclick="toggleChimes()" class="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" title="Toggle Sound Chimes">
+          <i id="chimesIcon" class="fa-solid fa-volume-high text-base"></i>
+        </button>
+
+        <!-- Add Test Button -->
+        <button onclick="openModal('addTestModal')" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-sm transition active:scale-95">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Test</span>
+        </button>
+
+        <!-- Add Homework Button -->
+        <button onclick="openModal('addHomeworkModal')" class="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-sm transition active:scale-95">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Homework</span>
+        </button>
+
+        <!-- Scanner Drawer Button -->
+        <button onclick="openModal('photoScannerModal')" class="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition" title="Upload or Compare Photo Timetable">
+          <i class="fa-solid fa-camera text-base"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Layout Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex-1 w-full space-y-6">
+
+    <!-- Live Status Banner & Current Class Summary -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- Current Active Class Card -->
+      <div id="currentClassCard" class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between relative overflow-hidden transition-all">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <i class="fa-regular fa-clock text-blue-600"></i> Current Status
+          </span>
+          <span id="currentPeriodTag" class="text-xs px-2.5 py-1 rounded-full font-bold bg-slate-100 text-slate-700 border border-slate-200">
+            Checking...
+          </span>
+        </div>
+
+        <div>
+          <h2 id="currentSubjectTitle" class="text-2xl font-extrabold text-slate-900 tracking-tight">Loading...</h2>
+          <div class="flex items-center gap-3 mt-1.5 text-sm font-semibold text-slate-600">
+            <span id="currentRoomText" class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-slate-400"></i> Room --</span>
+            <span id="currentTimeSpan" class="text-xs text-slate-400">(--:-- - --:--)</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span id="currentProgressLabel">Time Remaining</span>
+          <span id="currentCountdownText" class="font-bold font-mono text-slate-800">--m --s</span>
+        </div>
+      </div>
+
+      <!-- Up Next Class Preview Card -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <i class="fa-solid fa-forward text-amber-500"></i> Up Next
+          </span>
+          <span id="nextPeriodTag" class="text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-100 text-slate-600">
+            --
+          </span>
+        </div>
+
+        <div>
+          <h3 id="nextSubjectTitle" class="text-xl font-bold text-slate-800">--</h3>
+          <p id="nextRoomText" class="text-sm font-medium text-slate-500 mt-1">Room --</p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+          <span>Starts at:</span>
+          <span id="nextStartTime" class="font-semibold text-slate-700">--:--</span>
+        </div>
+      </div>
+
+      <!-- Quick Stats & Companion Mini Card -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <i class="fa-solid fa-paw text-indigo-500"></i> Active Companion
+          </span>
+          <button onclick="openGemHub('pets')" class="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline">
+            Manage Pets &rarr;
+          </button>
+        </div>
+
+        <div id="activePetDisplay" class="flex items-center gap-4 my-2">
+          <div class="text-4xl bg-slate-100 p-2.5 rounded-2xl border border-slate-200" id="activePetEmoji">
+            🐶
+          </div>
+          <div class="flex-1 min-w-0">
+            <h4 id="activePetName" class="font-bold text-slate-900 truncate">Buddy (Dog)</h4>
+            <div class="space-y-1 mt-1">
+              <div>
+                <div class="flex justify-between text-[10px] font-semibold text-slate-500">
+                  <span>Hunger</span> <span id="activePetHungerVal">100%</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div id="activePetHungerBar" class="h-full bg-amber-500 transition-all duration-300" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] font-semibold text-slate-500">
+                  <span>Health</span> <span id="activePetHealthVal">100%</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div id="activePetHealthBar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>Academic Score Average:</span>
+          <span id="headerGradeAverage" class="font-extrabold text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">--%</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Weekly 6-Period Timetable Grid -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days text-slate-700"></i>
+            Class 2A Timetable Schedule
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">Click any period slot to edit details (temporary or permanent override).</p>
+        </div>
+
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 6 Periods / Day
+          </span>
+          <button onclick="resetTimetableToDefault()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 underline px-2 py-1">
+            Reset Schedule
+          </button>
+        </div>
+      </div>
+
+      <!-- Responsive Schedule Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[700px]">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-100/70 text-slate-700 text-xs font-bold uppercase tracking-wider">
+              <th class="py-3 px-4 w-28 text-center border-r border-slate-200">Period / Time</th>
+              <th class="py-3 px-3 text-center w-1/5 border-r border-slate-200" id="th-Mon">Monday</th>
+              <th class="py-3 px-3 text-center w-1/5 border-r border-slate-200" id="th-Tue">Tuesday</th>
+              <th class="py-3 px-3 text-center w-1/5 border-r border-slate-200" id="th-Wed">Wednesday</th>
+              <th class="py-3 px-3 text-center w-1/5 border-r border-slate-200" id="th-Thu">Thursday</th>
+              <th class="py-3 px-3 text-center w-1/5" id="th-Fri">Friday</th>
+            </tr>
+          </thead>
+          <tbody id="timetableGridBody" class="divide-y divide-slate-200 text-sm">
+            <!-- Timetable dynamic rows generated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Homework & Tests Dual Panel Section -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Homework Management Card -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-blue-600"></i> Homework Assignments
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Check off completed homework to earn +5 Gems 💎 (Unchecking deducts 5 💎)</p>
+            </div>
+            <button onclick="openModal('addHomeworkModal')" class="bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold text-xs px-3 py-1.5 rounded-xl border border-blue-200 transition">
+              + Add Task
+            </button>
+          </div>
+
+          <!-- Homework Filter Controls -->
+          <div class="flex items-center justify-between my-3 text-xs">
+            <span id="hwCountsLabel" class="font-semibold text-slate-500">0 pending • 0 completed</span>
+            <div class="flex gap-1">
+              <button onclick="setHwFilter('all')" id="filterHwAll" class="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-medium">All</button>
+              <button onclick="setHwFilter('pending')" id="filterHwPending" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 font-medium hover:bg-slate-200">Pending</button>
+              <button onclick="setHwFilter('completed')" id="filterHwCompleted" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 font-medium hover:bg-slate-200">Done</button>
+            </div>
+          </div>
+
+          <!-- Homework List Container -->
+          <div id="homeworkList" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
+            <!-- Dynamic homework items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Grade Tracker & Average Calculator -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-purple-600"></i> Test Grades & Performance
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Log scores to calculate academic average & earn tier bonus Gems</p>
+            </div>
+            <button onclick="openModal('addTestModal')" class="bg-purple-50 text-purple-700 hover:bg-purple-100 font-semibold text-xs px-3 py-1.5 rounded-xl border border-purple-200 transition">
+              + Log Test
+            </button>
+          </div>
+
+          <!-- Summary Grade Card -->
+          <div class="bg-slate-50 rounded-xl p-4 my-3 border border-slate-200 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Overall Academic Average</span>
+              <div class="flex items-baseline gap-2 mt-0.5">
+                <span id="overallGradeAvg" class="text-3xl font-extrabold text-slate-900">--%</span>
+                <span id="gradeAvgBadge" class="text-xs px-2 py-0.5 rounded font-bold bg-slate-200 text-slate-700">No data</span>
+              </div>
+            </div>
+            <div class="text-right text-xs text-slate-500">
+              <span id="testCountLabel" class="font-bold text-slate-700">0 Tests Logged</span>
+              <p class="text-[11px] text-slate-400 mt-0.5">Up to +50 💎 bonus per 95%+</p>
+            </div>
+          </div>
+
+          <!-- Test Results List -->
+          <div id="testsList" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+            <!-- Dynamic test items -->
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL: ADD HOMEWORK -->
+  <div id="addHomeworkModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 space-y-4 relative animate-in fade-in zoom-in-95 duration-150">
+      <button onclick="closeModal('addHomeworkModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+        <i class="fa-solid fa-plus-circle text-blue-600"></i> Add Homework Task
+      </h3>
+
+      <form id="addHomeworkForm" onsubmit="handleAddHomework(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Subject</label>
+          <select id="hwSubjectSelect" onchange="updateHwDueClassText()" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" required>
+            <!-- Generated dynamically based on subjects -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Assignment Description</label>
+          <input type="text" id="hwDescriptionInput" placeholder="e.g., Exercises 1-5, Page 84" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" required />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Extra Information / Notes (Optional)</label>
+          <textarea id="hwNotesInput" rows="2" placeholder="e.g., Submit in Google Classroom or bring workbook" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+        </div>
+
+        <!-- "Due Next Class" Auto Switch -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800">Due Next Class</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="hwDueNextClassSwitch" onchange="toggleHwDueDateSwitch()" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+          <p id="hwCalculatedDueText" class="text-xs font-semibold text-blue-700">Auto-calculating next class...</p>
+        </div>
+
+        <!-- Custom Date Picker (hidden if switch is ON) -->
+        <div id="hwCustomDateContainer" class="hidden">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Custom Due Date</label>
+          <input type="date" id="hwCustomDateInput" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('addHomeworkModal')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition">Save Homework (+5 💎)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD TEST -->
+  <div id="addTestModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 space-y-4 relative">
+      <button onclick="closeModal('addTestModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+        <i class="fa-solid fa-award text-purple-600"></i> Log Test Score
+      </h3>
+
+      <form id="addTestForm" onsubmit="handleAddTest(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Subject</label>
+          <select id="testSubjectSelect" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-purple-500 outline-none" required>
+            <!-- Generated dynamically -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Test Title / Topic</label>
+          <input type="text" id="testTopicInput" placeholder="e.g., Algebra Mid-Term, Chapter 3 Exam" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-purple-500 outline-none" required />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Test Date</label>
+          <input type="date" id="testDateInput" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-purple-500 outline-none" required />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Score Percentage (%)</label>
+          <input type="number" id="testScoreInput" min="0" max="100" placeholder="0 - 100" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-purple-500 outline-none" required />
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-3 text-xs text-purple-900 border border-purple-200">
+          <p class="font-bold mb-1"><i class="fa-solid fa-gem text-amber-500"></i> Tiered Reward Gems:</p>
+          <ul class="list-disc list-inside space-y-0.5 text-[11px] text-purple-800">
+            <li>50% - 59%: +1 💎</li>
+            <li>60% - 79%: +5 💎</li>
+            <li>80% - 94%: +10 💎</li>
+            <li>95% - 100%: +50 💎 (Perfect Score Bonus!)</li>
+          </ul>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('addTestModal')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-sm transition">Submit Grade & Claim Gems</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GEM HUB & SHOP & PET MANAGEMENT -->
+  <div id="gemHubModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 relative flex flex-col max-h-[90vh]">
+      <button onclick="closeModal('gemHubModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 z-10">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Hub Navigation Tabs -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">💎</span>
+          <div>
+            <h3 class="text-xl font-bold text-slate-900">Gem Hub & Pet Sanctuary</h3>
+            <p class="text-xs text-slate-500">Earn gems through academic achievements and adopt companions</p>
+          </div>
+        </div>
+
+        <div class="flex items-center bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+          <span class="text-xs text-slate-500 font-medium mr-1.5">Balance:</span>
+          <span id="gemHubBalance" class="text-base font-extrabold text-amber-600">0 💎</span>
+        </div>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="flex border-b border-slate-200 mt-3 text-xs font-bold">
+        <button onclick="switchGemTab('balance')" id="tabBtn-balance" class="px-4 py-2.5 border-b-2 border-blue-600 text-blue-600">
+          <i class="fa-solid fa-wallet mr-1"></i> Balance & Rules
+        </button>
+        <button onclick="switchGemTab('shop')" id="tabBtn-shop" class="px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800">
+          <i class="fa-solid fa-store mr-1"></i> Companion Shop
+        </button>
+        <button onclick="switchGemTab('pets')" id="tabBtn-pets" class="px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800">
+          <i class="fa-solid fa-paw mr-1"></i> My Pets (<span id="myPetsTabCount">0</span>)
+        </button>
+      </div>
+
+      <!-- TAB 1: BALANCE & RULES -->
+      <div id="gemTab-balance" class="py-4 space-y-4 overflow-y-auto flex-1">
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 text-center">
+          <div class="text-4xl font-extrabold text-amber-600 flex items-center justify-center gap-2">
+            <span>💎</span> <span id="rulesTabBalance">0</span>
+          </div>
+          <p class="text-xs font-semibold text-amber-800 mt-1">Total Gems Available</p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">How to Earn & Spend Gems</h4>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+              <span class="font-bold text-emerald-900 block"><i class="fa-solid fa-check text-emerald-600"></i> Homework Complete</span>
+              <span class="text-emerald-700 text-[11px]">+5 Gems awarded per checked assignment.</span>
+            </div>
+            
+            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+              <span class="font-bold text-rose-900 block"><i class="fa-solid fa-rotate-left text-rose-600"></i> Homework Unchecked</span>
+              <span class="text-rose-700 text-[11px]">-5 Gems deducted immediately when unchecked.</span>
+            </div>
+
+            <div class="p-3 bg-purple-50 rounded-xl border border-purple-200">
+              <span class="font-bold text-purple-900 block"><i class="fa-solid fa-award text-purple-600"></i> Test Performance</span>
+              <span class="text-purple-700 text-[11px]">Earn +1 to +50 Gems based on score percentage.</span>
+            </div>
+
+            <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
+              <span class="font-bold text-blue-900 block"><i class="fa-solid fa-basket-shopping text-blue-600"></i> Pet Care Supplies</span>
+              <span class="text-blue-700 text-[11px]">Purchase 🍱 Food (10💎) & 💊 Medicine (30💎) in Shop.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+          <button onclick="resetGemsConfirmation()" class="text-xs font-bold text-red-600 hover:text-red-700 hover:underline">
+            Reset Gem Count to 0
+          </button>
+          <span class="text-[11px] text-slate-400">Gems are synced to localStorage</span>
+        </div>
+      </div>
+
+      <!-- TAB 2: SHOP -->
+      <div id="gemTab-shop" class="py-4 space-y-4 overflow-y-auto flex-1 hidden">
+        <!-- Inventory Summary Bar -->
+        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-bold">
+          <span class="text-slate-600">Your Inventory:</span>
+          <div class="flex gap-4">
+            <span>🍱 Food: <span id="shopInvFood" class="text-slate-900 font-mono">0</span></span>
+            <span>💊 Medicine: <span id="shopInvMed" class="text-slate-900 font-mono">0</span></span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">Items & Care Supplies</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex items-center justify-between shadow-xs">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">🍱</span>
+                <div>
+                  <h5 class="text-xs font-bold text-slate-900">Pet Food Box</h5>
+                  <p class="text-[11px] text-slate-500">+60% Hunger Restore</p>
+                </div>
+              </div>
+              <button onclick="buyItem('food', 10)" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition active:scale-95">
+                10 💎
+              </button>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex items-center justify-between shadow-xs">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">💊</span>
+                <div>
+                  <h5 class="text-xs font-bold text-slate-900">Health Medicine</h5>
+                  <p class="text-[11px] text-slate-500">+50% Health Restore</p>
+                </div>
+              </div>
+              <button onclick="buyItem('medicine', 30)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition active:scale-95">
+                30 💎
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">Pet Companions</h4>
+          <div id="shopPetsGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Dynamic pet adoption cards -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: MY PETS -->
+      <div id="gemTab-pets" class="py-4 space-y-4 overflow-y-auto flex-1 hidden">
+        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-bold">
+          <span class="text-slate-600">Available Stock:</span>
+          <div class="flex gap-4">
+            <span>🍱 Food: <span id="myPetsInvFood" class="text-slate-900 font-mono">0</span></span>
+            <span>💊 Medicine: <span id="myPetsInvMed" class="text-slate-900 font-mono">0</span></span>
+          </div>
+        </div>
+
+        <div id="myPetsContainer" class="space-y-3">
+          <!-- Dynamic adopted pets list -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: EDIT TIMETABLE SLOT -->
+  <div id="editSlotModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 space-y-4 relative">
+      <button onclick="closeModal('editSlotModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+        <i class="fa-solid fa-pen-to-square text-blue-600"></i> Edit Class Period
+      </h3>
+
+      <form id="editSlotForm" onsubmit="handleSaveSlotEdit(event)" class="space-y-4">
+        <input type="hidden" id="editSlotDay" />
+        <input type="hidden" id="editSlotPeriod" />
+
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 flex justify-between">
+          <span id="editSlotDayName">Monday</span>
+          <span id="editSlotPeriodName">Period 1</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Subject</label>
+          <select id="editSlotSubjectSelect" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" required>
+            <!-- Generated dynamically -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Room / Location</label>
+          <input type="text" id="editSlotRoomInput" placeholder="e.g., R40 or Hall" class="w-full rounded-xl border-slate-300 text-slate-800 text-sm p-2.5 bg-slate-50 border focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none" required />
+        </div>
+
+        <!-- Scope Switch (One Week vs Permanent) -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+          <label class="block text-xs font-bold text-slate-800">Edit Scope</label>
+          <div class="space-y-1.5 text-xs text-slate-700">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="editScope" value="week" checked class="text-blue-600 focus:ring-blue-500">
+              <span>Edit Only Once (This Week Only)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="editScope" value="permanent" class="text-blue-600 focus:ring-blue-500">
+              <span>Update Permanent Schedule</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('editSlotModal')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition">Save Schedule Slot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PHOTO SCHEDULE SCANNER & COMPARISON -->
+  <div id="photoScannerModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-3xl w-full p-6 relative flex flex-col max-h-[90vh]">
+      <button onclick="closeModal('photoScannerModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-200">
+        <i class="fa-solid fa-camera text-slate-700"></i> Timetable Photo Scanner & Comparison
+      </h3>
+
+      <div class="py-4 space-y-4 overflow-y-auto flex-1">
+        <p class="text-xs text-slate-600">
+          Upload an image of your St Joseph's 2A printed timetable to compare side-by-side with your active interactive schedule, or click sync to verify alignment.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+          <label class="cursor-pointer bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition">
+            <i class="fa-solid fa-upload mr-1.5"></i> Select Schedule Image
+            <input type="file" id="timetablePhotoInput" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden" />
+          </label>
+          <button onclick="resetTimetableToDefault()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-200 transition">
+            <i class="fa-solid fa-rotate-left mr-1.5"></i> Restore Default 2A Schedule
+          </button>
+        </div>
+
+        <!-- Image Preview Container -->
+        <div id="photoPreviewArea" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="bg-slate-100 p-3 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-xs font-bold text-slate-700 mb-2">Uploaded Timetable Photo</span>
+            <img id="scannedImagePreview" class="max-h-64 object-contain rounded-lg border border-slate-300" src="" alt="Uploaded Schedule" />
+          </div>
+
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-slate-800 mb-2 block"><i class="fa-solid fa-check-circle text-emerald-600"></i> Class 2A Verification</span>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Schedule verified for Oisin Healy (Class 2A). Key subjects include Business Studies, Coding, Wood Tech, Spanish, RE, Science, History, Speech & Drama, SPHE, CSPE, Irish, Maths & PE.
+              </p>
+            </div>
+            <div class="mt-4 p-2.5 bg-emerald-50 text-emerald-800 rounded-lg text-xs font-semibold border border-emerald-200">
+              Status: Active schedule is synced with Class 2A Master Timetable.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. DATA STRUCTURES & SUBJECT DEFINITIONS
+       ========================================================================== */
+    const SUBJECTS = {
+      'Business Studies': { badgeClass: 'badge-business', color: '#f59e0b' },
+      'Mathematics': { badgeClass: 'badge-maths', color: '#ec4899' },
+      'Spanish': { badgeClass: 'badge-spanish', color: '#14b8a6' },
+      'Programming and Coding': { badgeClass: 'badge-coding', color: '#6366f1' },
+      'English': { badgeClass: 'badge-english', color: '#eab308' },
+      'Science': { badgeClass: 'badge-science', color: '#f97316' },
+      'History': { badgeClass: 'badge-history', color: '#a855f7' },
+      'Irish': { badgeClass: 'badge-irish', color: '#10b981' },
+      'Speech & Drama': { badgeClass: 'badge-drama', color: '#f43f5e' },
+      'Wood Tech': { badgeClass: 'badge-woodtech', color: '#78350f' },
+      'RE': { badgeClass: 'badge-re', color: '#0284c7' },
+      'CSPE': { badgeClass: 'badge-re', color: '#06b6d4' },
+      'SPHE': { badgeClass: 'badge-re', color: '#0284c7' },
+      'PE': { badgeClass: 'badge-pe', color: '#3b82f6' }
+    };
+
+    // Period timings (Mon-Thu vs Fri)
+    const TIME_SLOTS_MON_THU = [
+      { id: 1, name: 'Period 1', start: '08:50', end: '09:48' },
+      { id: 2, name: 'Period 2', start: '09:48', end: '10:46' },
+      { id: 'break', name: 'Break', start: '10:46', end: '10:58', isBreak: true },
+      { id: 3, name: 'Period 3', start: '10:58', end: '11:56' },
+      { id: 4, name: 'Period 4', start: '11:56', end: '12:54' },
+      { id: 'lunch', name: 'Lunch', start: '12:54', end: '13:39', isLunch: true },
+      { id: 5, name: 'Period 5', start: '13:39', end: '14:37' },
+      { id: 6, name: 'Period 6', start: '14:37', end: '15:35' }
+    ];
+
+    const TIME_SLOTS_FRI = [
+      { id: 1, name: 'Period 1', start: '08:50', end: '09:50' },
+      { id: 2, name: 'Period 2', start: '09:50', end: '10:50' },
+      { id: 'break', name: 'Break', start: '10:50', end: '11:00', isBreak: true },
+      { id: 3, name: 'Period 3', start: '11:00', end: '12:00' },
+      { id: 4, name: 'Period 4', start: '12:00', end: '13:00' }
+    ];
+
+    // Default 2A Timetable matching Oisin Healy's sheet exactly
+    const DEFAULT_TIMETABLE = {
+      Mon: { 1: { subject: 'Business Studies', room: 'R40' }, 2: { subject: 'Programming and Coding', room: 'R45' }, 3: { subject: 'Irish', room: 'R42' }, 4: { subject: 'RE', room: 'R35' }, 5: { subject: 'Wood Tech', room: 'R34' }, 6: { subject: 'PE', room: 'Hall' } },
+      Tue: { 1: { subject: 'Mathematics', room: 'R3' }, 2: { subject: 'English', room: 'R46' }, 3: { subject: 'RE', room: 'R35' }, 4: { subject: 'Science', room: 'R49' }, 5: { subject: 'Speech & Drama', room: 'R20' }, 6: { subject: 'SPHE', room: 'R46' } },
+      Wed: { 1: { subject: 'Spanish', room: 'R5' }, 2: { subject: 'Science', room: 'R49' }, 3: { subject: 'Wood Tech', room: 'R34' }, 4: { subject: 'History', room: 'R12' }, 5: { subject: 'PE', room: 'Hall' }, 6: { subject: 'English', room: 'R46' } },
+      Thu: { 1: { subject: 'Mathematics', room: 'R3' }, 2: { subject: 'History', room: 'R12' }, 3: { subject: 'Business Studies', room: 'R40' }, 4: { subject: 'CSPE', room: 'R3' }, 5: { subject: 'English', room: 'R46' }, 6: { subject: 'Irish', room: 'R42' } },
+      Fri: { 1: { subject: 'Irish', room: 'R42' }, 2: { subject: 'Science', room: 'R49' }, 3: { subject: 'Mathematics', room: 'R3' }, 4: { subject: 'Spanish', room: 'R28' } }
+    };
+
+    // Available Pet Shop Catalog
+    const PET_CATALOG = [
+      { id: 'dog', emoji: '🐶', name: 'Dog', price: 30 },
+      { id: 'cat', emoji: '🐱', name: 'Cat', price: 30 },
+      { id: 'fox', emoji: '🦊', name: 'Fox', price: 50 },
+      { id: 'butterfly', emoji: '🦋', name: 'Butterfly', price: 70 },
+      { id: 'dolphin', emoji: '🐬', name: 'Dolphin', price: 70 },
+      { id: 'chick', emoji: '🐥', name: 'Chick', price: 100 },
+      { id: 'servicedog', emoji: '🐕‍🦺', name: 'Service Dog', price: 200 },
+      { id: 'beaver', emoji: '🦫', name: 'Beaver', price: 200 },
+      { id: 'sloth', emoji: '🦥', name: 'Sloth', price: 200 }
+    ];
+
+    /* ==========================================================================
+       2. APP STATE & LOCALSTORAGE PERSISTENCE
+       ========================================================================== */
+    let gems = parseInt(localStorage.getItem('oisin_gems_count')) || 0;
+    let homeworkList = JSON.parse(localStorage.getItem('oisin_homework_list')) || [
+      { id: 'hw_1', subject: 'Business Studies', description: 'Chapter 4 Review Q1-5', notes: 'Read page 52', due: '2026-09-28', completed: false },
+      { id: 'hw_2', subject: 'Mathematics', description: 'Algebra Workbook p.34', notes: '', due: '2026-09-29', completed: false }
+    ];
+    let testsList = JSON.parse(localStorage.getItem('oisin_tests_list')) || [
+      { id: 'test_1', subject: 'Science', topic: 'Cell Structure & Biology', date: '2026-09-20', score: 88 }
+    ];
+    let timetableCustom = JSON.parse(localStorage.getItem('oisin_timetable_custom')) || JSON.parse(JSON.stringify(DEFAULT_TIMETABLE));
+    let inventory = JSON.parse(localStorage.getItem('oisin_inventory_data')) || { food: 2, medicine: 1 };
+    let petsData = JSON.parse(localStorage.getItem('oisin_pets_data')) || [
+      { id: 'pet_default', typeId: 'dog', name: 'Buddy', hunger: 100, health: 100, active: true }
+    ];
+    let petDecayLastTimestamp = parseInt(localStorage.getItem('oisin_pet_decay_timestamp')) || Date.now();
+
+    let hwFilter = 'all';
+    let chimesEnabled = true;
+    let audioCtx = null;
+
+    /* ==========================================================================
+       3. SYNTHESIZER AUDIO & CHIMES ENGINE
+       ========================================================================== */
+    function toggleChimes() {
+      chimesEnabled = !chimesEnabled;
+      const btn = document.getElementById('chimesToggleBtn');
+      const icon = document.getElementById('chimesIcon');
+      if (chimesEnabled) {
+        btn.className = 'p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition';
+        icon.className = 'fa-solid fa-volume-high text-base';
+        playSound('chime');
+        showToast('🔊 Sound Chimes Enabled', 'info');
+      } else {
+        btn.className = 'p-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition';
+        icon.className = 'fa-solid fa-volume-xmark text-base';
+        showToast('🔇 Sound Chimes Muted', 'info');
+      }
+    }
+
+    function playSound(type) {
+      if (!chimesEnabled) return;
+      try {
+        const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+        if (!audioCtx) audioCtx = new AudioCtxClass();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'gain') { // +5 Gems upward chime
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'loss') { // -5 Gems warning chime
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now); // A4
+          osc.frequency.exponentialRampToValueAtTime(349.23, now + 0.12); // F4
+          osc.frequency.exponentialRampToValueAtTime(261.63, now + 0.25); // C4
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === 'chime') { // General chime
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(659.25, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        }
+      } catch (e) {
+        console.warn('Audio play error:', e);
+      }
+    }
+
+    /* ==========================================================================
+       4. TOAST NOTIFICATION ENGINE
+       ========================================================================== */
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      let borderBg = 'bg-slate-900 text-white';
+      if (type === 'gain') borderBg = 'bg-emerald-600 text-white shadow-emerald-200';
+      if (type === 'loss') borderBg = 'bg-rose-600 text-white shadow-rose-200';
+      if (type === 'bonus') borderBg = 'bg-purple-600 text-white shadow-purple-200';
+
+      toast.className = `px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg flex items-center gap-2 border border-white/20 animate-float-toast ${borderBg}`;
+      toast.innerHTML = message;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 2300);
+    }
+
+    /* ==========================================================================
+       5. HOMEWORK LOGIC & UNCHECKING GEM DEDUCTION (CRITICAL FEATURE)
+       ========================================================================== */
+    function toggleHomeworkStatus(id) {
+      const item = homeworkList.find(h => h.id === id);
+      if (!item) return;
+
+      item.completed = !item.completed;
+
+      if (item.completed) {
+        // AWARD +5 GEMS
+        gems += 5;
+        playSound('gain');
+        showToast('✨ Homework Completed! <b>+5 💎 Earned</b>', 'gain');
+      } else {
+        // DEDUCT 5 GEMS (CRITICAL RULE IMPLEMENTATION)
+        gems = Math.max(0, gems - 5);
+        playSound('loss');
+        showToast('⚠️ Homework Unchecked! <b>-5 💎 Deducted</b>', 'loss');
+      }
+
+      saveAllState();
+      updateUI();
+    }
+
+    function deleteHomework(id) {
+      homeworkList = homeworkList.filter(h => h.id === id);
+      saveAllState();
+      updateUI();
+      showToast('Task removed', 'info');
+    }
+
+    function setHwFilter(filter) {
+      hwFilter = filter;
+      document.getElementById('filterHwAll').className = `px-2.5 py-1 rounded-lg font-medium ${filter === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
+      document.getElementById('filterHwPending').className = `px-2.5 py-1 rounded-lg font-medium ${filter === 'pending' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
+      document.getElementById('filterHwCompleted').className = `px-2.5 py-1 rounded-lg font-medium ${filter === 'completed' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
+      renderHomework();
+    }
+
+    function renderHomework() {
+      const container = document.getElementById('homeworkList');
+      container.innerHTML = '';
+
+      let filtered = homeworkList;
+      if (hwFilter === 'pending') filtered = homeworkList.filter(h => !h.completed);
+      if (hwFilter === 'completed') filtered = homeworkList.filter(h => h.completed);
+
+      const pendingCount = homeworkList.filter(h => !h.completed).length;
+      const doneCount = homeworkList.filter(h => h.completed).length;
+      document.getElementById('hwCountsLabel').innerText = `${pendingCount} pending • ${doneCount} completed`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-400 text-xs">
+            <i class="fa-solid fa-clipboard-check text-2xl mb-1 text-slate-300 block"></i>
+            No homework assignments found.
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(hw => {
+        const subjInfo = SUBJECTS[hw.subject] || { badgeClass: 'badge-default' };
+        const el = document.createElement('div');
+        el.className = `p-3.5 rounded-xl border transition-all flex items-start justify-between gap-3 ${hw.completed ? 'bg-slate-50 border-slate-200 opacity-75' : 'bg-white border-slate-200 hover:border-slate-300 shadow-xs'}`;
+        
+        el.innerHTML = `
+          <div class="flex items-start gap-3 min-w-0">
+            <input type="checkbox" ${hw.completed ? 'checked' : ''} onchange="toggleHomeworkStatus('${hw.id}')" class="mt-1 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer" />
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${subjInfo.badgeClass}">${hw.subject}</span>
+                <span class="text-[11px] font-semibold text-slate-400">Due: ${hw.due}</span>
+              </div>
+              <p class="text-xs font-bold text-slate-800 mt-1 ${hw.completed ? 'line-through text-slate-500' : ''}">${hw.description}</p>
+              ${hw.notes ? `<p class="text-[11px] text-slate-500 mt-0.5 italic">${hw.notes}</p>` : ''}
+            </div>
+          </div>
+          <button onclick="deleteHomework('${hw.id}')" class="text-slate-300 hover:text-rose-500 p-1 text-xs transition">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function handleAddHomework(e) {
+      e.preventDefault();
+      const subject = document.getElementById('hwSubjectSelect').value;
+      const description = document.getElementById('hwDescriptionInput').value.trim();
+      const notes = document.getElementById('hwNotesInput').value.trim();
+      const isDueNextClass = document.getElementById('hwDueNextClassSwitch').checked;
+
+      let dueDateStr = '';
+      if (isDueNextClass) {
+        dueDateStr = calculateNextClassDateStr(subject);
+      } else {
+        dueDateStr = document.getElementById('hwCustomDateInput').value;
+        if (!dueDateStr) {
+          dueDateStr = new Date().toISOString().split('T')[0];
+        }
+      }
+
+      const newHw = {
+        id: 'hw_' + Date.now(),
+        subject,
+        description,
+        notes,
+        due: dueDateStr,
+        completed: false
+      };
+
+      homeworkList.unshift(newHw);
+      saveAllState();
+      updateUI();
+      closeModal('addHomeworkModal');
+      document.getElementById('addHomeworkForm').reset();
+      showToast('Homework assignment saved!', 'info');
+    }
+
+    function toggleHwDueDateSwitch() {
+      const isNextClass = document.getElementById('hwDueNextClassSwitch').checked;
+      const customContainer = document.getElementById('hwCustomDateContainer');
+      if (isNextClass) {
+        customContainer.classList.add('hidden');
+        updateHwDueClassText();
+      } else {
+        customContainer.classList.remove('hidden');
+      }
+    }
+
+    function updateHwDueClassText() {
+      const subject = document.getElementById('hwSubjectSelect').value;
+      const textEl = document.getElementById('hwCalculatedDueText');
+      if (!subject) return;
+      const dateStr = calculateNextClassDateStr(subject);
+      textEl.innerText = `Calculated Next Class: ${dateStr}`;
+    }
+
+    function calculateNextClassDateStr(subject) {
+      const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const now = new Date();
+      let checkDate = new Date(now);
+
+      for (let i = 0; i < 14; i++) {
+        const dayCode = daysMap[checkDate.getDay()];
+        if (timetableCustom[dayCode]) {
+          const periods = timetableCustom[dayCode];
+          for (const p in periods) {
+            if (periods[p].subject === subject) {
+              // Found next occurrence
+              const yyyy = checkDate.getFullYear();
+              const mm = String(checkDate.getMonth() + 1).padStart(2, '0');
+              const dd = String(checkDate.getDate()).padStart(2, '0');
+              return `${yyyy}-${mm}-${dd} (${dayCode} P${p})`;
+            }
+          }
+        }
+        checkDate.setDate(checkDate.getDate() + 1);
+      }
+      return new Date().toISOString().split('T')[0];
+    }
+
+    /* ==========================================================================
+       6. TEST GRADE TRACKING ENGINE
+       ========================================================================== */
+    function handleAddTest(e) {
+      e.preventDefault();
+      const subject = document.getElementById('testSubjectSelect').value;
+      const topic = document.getElementById('testTopicInput').value.trim();
+      const date = document.getElementById('testDateInput').value;
+      const score = parseInt(document.getElementById('testScoreInput').value);
+
+      if (isNaN(score) || score < 0 || score > 100) return;
+
+      let awardedGems = 0;
+      if (score >= 50 && score <= 59) awardedGems = 1;
+      else if (score >= 60 && score <= 79) awardedGems = 5;
+      else if (score >= 80 && score <= 94) awardedGems = 10;
+      else if (score >= 95) awardedGems = 50;
+
+      if (awardedGems > 0) {
+        gems += awardedGems;
+        playSound('gain');
+        showToast(`🎉 Test Grade Reward! <b>+${awardedGems} 💎 Bonus!</b>`, 'bonus');
+      } else {
+        showToast('Test grade logged!', 'info');
+      }
+
+      const newTest = {
+        id: 'test_' + Date.now(),
+        subject,
+        topic,
+        date,
+        score
+      };
+
+      testsList.unshift(newTest);
+      saveAllState();
+      updateUI();
+      closeModal('addTestModal');
+      document.getElementById('addTestForm').reset();
+    }
+
+    function deleteTest(id) {
+      testsList = testsList.filter(t => t.id !== id);
+      saveAllState();
+      updateUI();
+    }
+
+    function renderTests() {
+      const container = document.getElementById('testsList');
+      container.innerHTML = '';
+
+      document.getElementById('testCountLabel').innerText = `${testsList.length} Tests Logged`;
+
+      if (testsList.length === 0) {
+        document.getElementById('overallGradeAvg').innerText = '--%';
+        document.getElementById('headerGradeAverage').innerText = '--%';
+        document.getElementById('gradeAvgBadge').innerText = 'No Data';
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-400 text-xs">
+            <i class="fa-solid fa-graduation-cap text-2xl mb-1 text-slate-300 block"></i>
+            No test grades logged yet.
+          </div>
+        `;
+        return;
+      }
+
+      const totalScore = testsList.reduce((acc, curr) => acc + curr.score, 0);
+      const avg = Math.round(totalScore / testsList.length);
+
+      document.getElementById('overallGradeAvg').innerText = `${avg}%`;
+      document.getElementById('headerGradeAverage').innerText = `${avg}%`;
+
+      let badgeText = 'Pass';
+      let badgeClass = 'bg-amber-100 text-amber-800';
+      if (avg >= 80) { badgeText = 'Merit / Distinction'; badgeClass = 'bg-emerald-100 text-emerald-800'; }
+      else if (avg < 50) { badgeText = 'Needs Focus'; badgeClass = 'bg-rose-100 text-rose-800'; }
+      document.getElementById('gradeAvgBadge').innerText = badgeText;
+      document.getElementById('gradeAvgBadge').className = `text-xs px-2 py-0.5 rounded font-bold ${badgeClass}`;
+
+      testsList.forEach(test => {
+        const subjInfo = SUBJECTS[test.subject] || { badgeClass: 'badge-default' };
+        let scoreColor = 'text-emerald-600';
+        if (test.score < 50) scoreColor = 'text-rose-600';
+        else if (test.score < 70) scoreColor = 'text-amber-600';
+
+        const el = document.createElement('div');
+        el.className = 'p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between gap-3 shadow-xs';
+        el.innerHTML = `
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${subjInfo.badgeClass}">${test.subject}</span>
+              <span class="text-[11px] font-semibold text-slate-400">${test.date}</span>
+            </div>
+            <h4 class="text-xs font-bold text-slate-800 mt-1 truncate">${test.topic}</h4>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-base font-extrabold font-mono ${scoreColor}">${test.score}%</span>
+            <button onclick="deleteTest('${test.id}')" class="text-slate-300 hover:text-rose-500 text-xs p-1">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    /* ==========================================================================
+       7. PET SANCTUARY & DECAY SYSTEM ENGINE
+       ========================================================================== */
+    function updatePetDecay() {
+      const now = Date.now();
+      const elapsedDays = (now - petDecayLastTimestamp) / (1000 * 60 * 60 * 24);
+
+      if (elapsedDays > 0.001) {
+        petsData.forEach(pet => {
+          // Hunger decays 20% per day
+          const hungerDecay = elapsedDays * 20;
+          pet.hunger = Math.max(0, pet.hunger - hungerDecay);
+
+          // Health decays 5% per day normally, or 30% per day if hunger is 0
+          const healthDecayRate = (pet.hunger <= 0) ? 30 : 5;
+          const healthDecay = elapsedDays * healthDecayRate;
+          pet.health = Math.max(0, pet.health - healthDecay);
+        });
+
+        petDecayLastTimestamp = now;
+        saveAllState();
+      }
+    }
+
+    function feedPet(petId) {
+      if (inventory.food <= 0) {
+        showToast('🍱 Out of Pet Food! Purchase in Shop.', 'loss');
+        return;
+      }
+
+      const pet = petsData.find(p => p.id === petId);
+      if (!pet) return;
+
+      inventory.food--;
+      pet.hunger = Math.min(100, pet.hunger + 60);
+      saveAllState();
+      updateUI();
+      playSound('chime');
+      showToast(`🍱 Fed ${pet.name}! Hunger +60%`, 'gain');
+    }
+
+    function giveMedicine(petId) {
+      if (inventory.medicine <= 0) {
+        showToast('💊 Out of Medicine! Purchase in Shop.', 'loss');
+        return;
+      }
+
+      const pet = petsData.find(p => p.id === petId);
+      if (!pet) return;
+
+      inventory.medicine--;
+      pet.health = Math.min(100, pet.health + 50);
+      saveAllState();
+      updateUI();
+      playSound('chime');
+      showToast(`💊 Administered Medicine to ${pet.name}! Health +50%`, 'gain');
+    }
+
+    function adoptPet(catalogId) {
+      const cat = PET_CATALOG.find(p => p.id === catalogId);
+      if (!cat) return;
+
+      if (gems < cat.price) {
+        showToast(`💎 Need ${cat.price} Gems to adopt ${cat.name}`, 'loss');
+        return;
+      }
+
+      gems -= cat.price;
+      const newPet = {
+        id: 'pet_' + Date.now(),
+        typeId: cat.id,
+        name: cat.name,
+        hunger: 100,
+        health: 100,
+        active: petsData.length === 0
+      };
+
+      petsData.push(newPet);
+      saveAllState();
+      updateUI();
+      playSound('gain');
+      showToast(`🎉 Adopted ${cat.emoji} ${cat.name}!`, 'gain');
+    }
+
+    function setActivePet(petId) {
+      petsData.forEach(p => p.active = (p.id === petId));
+      saveAllState();
+      updateUI();
+    }
+
+    function buyItem(itemType, price) {
+      if (gems < price) {
+        showToast(`💎 Need ${price} Gems for this item`, 'loss');
+        return;
+      }
+
+      gems -= price;
+      if (itemType === 'food') inventory.food++;
+      if (itemType === 'medicine') inventory.medicine++;
+
+      saveAllState();
+      updateUI();
+      playSound('gain');
+      showToast(`Purchased ${itemType === 'food' ? '🍱 Pet Food' : '💊 Medicine'}!`, 'gain');
+    }
+
+    function renderShopAndPets() {
+      // Inventory counts
+      document.getElementById('shopInvFood').innerText = inventory.food;
+      document.getElementById('shopInvMed').innerText = inventory.medicine;
+      document.getElementById('myPetsInvFood').innerText = inventory.food;
+      document.getElementById('myPetsInvMed').innerText = inventory.medicine;
+
+      // Shop catalog rendering
+      const shopGrid = document.getElementById('shopPetsGrid');
+      shopGrid.innerHTML = '';
+
+      PET_CATALOG.forEach(cat => {
+        const owned = petsData.some(p => p.typeId === cat.id);
+        const el = document.createElement('div');
+        el.className = 'bg-white p-3.5 rounded-xl border border-slate-200 flex flex-col justify-between shadow-xs';
+        el.innerHTML = `
+          <div class="text-center py-2">
+            <span class="text-4xl block mb-1">${cat.emoji}</span>
+            <h5 class="text-xs font-bold text-slate-900">${cat.name}</h5>
+          </div>
+          <button onclick="adoptPet('${cat.id}')" ${owned ? 'disabled' : ''} class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold transition ${owned ? 'bg-slate-100 text-slate-400 border border-slate-200' : 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs active:scale-95'}">
+            ${owned ? 'Adopted' : `${cat.price} 💎`}
+          </button>
+        `;
+        shopGrid.appendChild(el);
+      });
+
+      // My Pets list rendering
+      const myPetsContainer = document.getElementById('myPetsContainer');
+      myPetsContainer.innerHTML = '';
+      document.getElementById('myPetsTabCount').innerText = petsData.length;
+
+      if (petsData.length === 0) {
+        myPetsContainer.innerHTML = `
+          <div class="text-center py-8 text-slate-400 text-xs">
+            <i class="fa-solid fa-paw text-2xl mb-1 text-slate-300 block"></i>
+            You haven't adopted any pets yet! Check the Companion Shop.
+          </div>
+        `;
+        return;
+      }
+
+      petsData.forEach(pet => {
+        const cat = PET_CATALOG.find(c => c.id === pet.typeId) || { emoji: '🐾' };
+        const el = document.createElement('div');
+        el.className = `p-4 rounded-xl border flex flex-col sm:flex-row items-center justify-between gap-4 ${pet.active ? 'bg-blue-50/50 border-blue-300 shadow-xs' : 'bg-white border-slate-200'}`;
+        
+        el.innerHTML = `
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <span class="text-4xl bg-white p-2 rounded-xl border border-slate-200 shadow-xs">${cat.emoji}</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-slate-900 text-sm">${pet.name}</h4>
+                ${pet.active ? '<span class="text-[10px] bg-blue-600 text-white font-bold px-2 py-0.5 rounded-full">Active Companion</span>' : `<button onclick="setActivePet('${pet.id}')" class="text-[10px] font-semibold text-blue-600 hover:underline">Set Active</button>`}
+              </div>
+              <p class="text-[11px] text-slate-500">Companion Pet</p>
+            </div>
+          </div>
+
+          <div class="w-full sm:w-48 space-y-1.5">
+            <div>
+              <div class="flex justify-between text-[10px] font-semibold text-slate-600">
+                <span>Hunger</span> <span>${Math.round(pet.hunger)}%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500 transition-all duration-300" style="width: ${pet.hunger}%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px] font-semibold text-slate-600">
+                <span>Health</span> <span>${Math.round(pet.health)}%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${pet.health}%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <button onclick="feedPet('${pet.id}')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs px-3 py-1.5 rounded-lg border border-amber-300 transition">
+              🍱 Feed (+60%)
+            </button>
+            <button onclick="giveMedicine('${pet.id}')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-bold text-xs px-3 py-1.5 rounded-lg border border-emerald-300 transition">
+              💊 Medicine (+50%)
+            </button>
+          </div>
+        `;
+        myPetsContainer.appendChild(el);
+      });
+
+      // Active pet mini header card update
+      const activePet = petsData.find(p => p.active) || petsData[0];
+      if (activePet) {
+        const cat = PET_CATALOG.find(c => c.id === activePet.typeId) || { emoji: '🐶' };
+        document.getElementById('activePetEmoji').innerText = cat.emoji;
+        document.getElementById('activePetName').innerText = `${activePet.name} (${cat.name})`;
+        document.getElementById('activePetHungerVal').innerText = `${Math.round(activePet.hunger)}%`;
+        document.getElementById('activePetHungerBar').style.width = `${activePet.hunger}%`;
+        document.getElementById('activePetHealthVal').innerText = `${Math.round(activePet.health)}%`;
+        document.getElementById('activePetHealthBar').style.width = `${activePet.health}%`;
+      }
+    }
+
+    /* ==========================================================================
+       8. TIMETABLE RENDER & EDITING ENGINE
+       ========================================================================== */
+    function renderTimetableGrid() {
+      const tbody = document.getElementById('timetableGridBody');
+      tbody.innerHTML = '';
+
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+      const currentDayCode = days[(new Date().getDay() + 6) % 7] || 'Mon';
+
+      // Highlight active day header
+      days.forEach(d => {
+        const th = document.getElementById(`th-${d}`);
+        if (th) {
+          if (d === currentDayCode) {
+            th.className = 'py-3 px-3 text-center w-1/5 border-r border-slate-200 bg-blue-100/60 text-blue-900 font-extrabold';
+          } else {
+            th.className = 'py-3 px-3 text-center w-1/5 border-r border-slate-200';
+          }
+        }
+      });
+
+      // Render maximum 6 period rows
+      for (let p = 1; p <= 6; p++) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition-colors';
+
+        // Period title column
+        let periodTimeStr = TIME_SLOTS_MON_THU.find(slot => slot.id === p)?.start || '';
+        let periodEndStr = TIME_SLOTS_MON_THU.find(slot => slot.id === p)?.end || '';
+
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-center font-bold text-slate-600 bg-slate-50 border-r border-slate-200 text-xs">
+            Period ${p}
+            <div class="text-[10px] text-slate-400 font-normal mt-0.5">${periodTimeStr}-${periodEndStr}</div>
+          </td>
+        `;
+
+        // Render each day column for period p
+        days.forEach(day => {
+          // Friday only has 4 periods
+          if (day === 'Fri' && p > 4) {
+            tr.innerHTML += `<td class="p-2 border-r border-slate-200 bg-slate-50/40 text-center text-[11px] text-slate-400 italic">Early Finish 🎉</td>`;
+            return;
+          }
+
+          const slotData = timetableCustom[day]?.[p];
+          if (slotData) {
+            const subjInfo = SUBJECTS[slotData.subject] || { badgeClass: 'badge-default' };
+            
+            tr.innerHTML += `
+              <td onclick="openEditSlotModal('${day}', ${p})" class="p-2 border-r border-slate-200 cursor-pointer hover:bg-blue-50/40 transition">
+                <div class="rounded-xl p-2.5 ${subjInfo.badgeClass} flex flex-col justify-between h-full shadow-xs">
+                  <span class="font-extrabold text-xs leading-snug">${slotData.subject}</span>
+                  <div class="flex items-center justify-between text-[11px] mt-1 font-semibold opacity-85">
+                    <span>${slotData.room}</span>
+                    <i class="fa-solid fa-pen text-[9px] opacity-40"></i>
+                  </div>
+                </div>
+              </td>
+            `;
+          } else {
+            tr.innerHTML += `
+              <td onclick="openEditSlotModal('${day}', ${p})" class="p-2 border-r border-slate-200 cursor-pointer text-center text-xs text-slate-400 hover:bg-slate-100">
+                + Set Class
+              </td>
+            `;
+          }
+        });
+
+        tbody.appendChild(tr);
+
+        // Inject Break row after P2
+        if (p === 2) {
+          const breakTr = document.createElement('tr');
+          breakTr.className = 'bg-amber-50/50 text-amber-900 text-xs font-bold border-y border-amber-200';
+          breakTr.innerHTML = `
+            <td class="py-2 px-3 text-center border-r border-slate-200">10:46 - 10:58</td>
+            <td colspan="5" class="py-2 px-4 text-center tracking-wider uppercase text-[11px] text-amber-800">☕ Morning Break</td>
+          `;
+          tbody.appendChild(breakTr);
+        }
+
+        // Inject Lunch row after P4
+        if (p === 4) {
+          const lunchTr = document.createElement('tr');
+          lunchTr.className = 'bg-emerald-50/50 text-emerald-900 text-xs font-bold border-y border-emerald-200';
+          lunchTr.innerHTML = `
+            <td class="py-2 px-3 text-center border-r border-slate-200">12:54 - 13:39</td>
+            <td colspan="5" class="py-2 px-4 text-center tracking-wider uppercase text-[11px] text-emerald-800">🍱 Lunch Break</td>
+          `;
+          tbody.appendChild(lunchTr);
+        }
+      }
+    }
+
+    function openEditSlotModal(day, period) {
+      document.getElementById('editSlotDay').value = day;
+      document.getElementById('editSlotPeriod').value = period;
+      document.getElementById('editSlotDayName').innerText = day;
+      document.getElementById('editSlotPeriodName').innerText = `Period ${period}`;
+
+      const slot = timetableCustom[day]?.[period];
+      if (slot) {
+        document.getElementById('editSlotSubjectSelect').value = slot.subject;
+        document.getElementById('editSlotRoomInput').value = slot.room;
+      } else {
+        document.getElementById('editSlotRoomInput').value = '';
+      }
+
+      openModal('editSlotModal');
+    }
+
+    function handleSaveSlotEdit(e) {
+      e.preventDefault();
+      const day = document.getElementById('editSlotDay').value;
+      const period = document.getElementById('editSlotPeriod').value;
+      const subject = document.getElementById('editSlotSubjectSelect').value;
+      const room = document.getElementById('editSlotRoomInput').value.trim();
+
+      if (!timetableCustom[day]) timetableCustom[day] = {};
+      timetableCustom[day][period] = { subject, room };
+
+      saveAllState();
+      updateUI();
+      closeModal('editSlotModal');
+      showToast(`Updated ${day} Period ${period}!`, 'info');
+    }
+
+    function resetTimetableToDefault() {
+      if (confirm("Reset schedule back to original St Joseph's Class 2A timetable?")) {
+        timetableCustom = JSON.parse(JSON.stringify(DEFAULT_TIMETABLE));
+        saveAllState();
+        updateUI();
+        showToast("Timetable reset to default 2A schedule!", "info");
+      }
+    }
+
+    /* ==========================================================================
+       9. REAL-TIME CLOCK & LIVE CLASS ENGINE
+       ========================================================================== */
+    function updateLiveClassStatus() {
+      const now = new Date();
+      
+      // Live Header Clock
+      const timeStr = now.toLocaleTimeString('en-IE', { hour12: false });
+      document.getElementById('headerLiveClock').innerText = timeStr;
+
+      const dayIndex = now.getDay(); // 0 = Sun, 1 = Mon ... 5 = Fri, 6 = Sat
+      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const currentDayCode = dayNames[dayIndex];
+
+      const curCard = document.getElementById('currentClassCard');
+      const curTitle = document.getElementById('currentSubjectTitle');
+      const curTag = document.getElementById('currentPeriodTag');
+      const curRoom = document.getElementById('currentRoomText');
+      const curTimeSpan = document.getElementById('currentTimeSpan');
+      const curCountText = document.getElementById('currentCountdownText');
+
+      const nextTitle = document.getElementById('nextSubjectTitle');
+      const nextTag = document.getElementById('nextPeriodTag');
+      const nextRoom = document.getElementById('nextRoomText');
+      const nextStart = document.getElementById('nextStartTime');
+
+      // Weekend / Off-Hours Handling
+      if (dayIndex === 0 || dayIndex === 6) {
+        curCard.className = 'bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between';
+        curTag.innerText = 'Weekend';
+        curTitle.innerText = 'No Active Class';
+        curRoom.innerText = 'School Closed';
+        curTimeSpan.innerText = '';
+        curCountText.innerText = 'Enjoy Weekend 🎉';
+
+        nextTitle.innerText = 'Monday Period 1';
+        nextTag.innerText = 'Mon P1';
+        nextRoom.innerText = timetableCustom.Mon?.[1]?.subject || 'Business Studies';
+        nextStart.innerText = '08:50 (Mon)';
+        return;
+      }
+
+      const isFriday = (dayIndex === 5);
+      const slots = isFriday ? TIME_SLOTS_FRI : TIME_SLOTS_MON_THU;
+      const schoolEndTime = isFriday ? '13:00' : '15:35';
+
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      const nowSeconds = now.getSeconds();
+
+      function timeToMin(t) {
+        const [h, m] = t.split(':').map(Number);
+        return h * 60 + m;
+      }
+
+      const schoolStartMin = timeToMin('08:50');
+      const schoolEndMin = timeToMin(schoolEndTime);
+
+      if (nowMinutes < schoolStartMin) {
+        // Before school starts
+        curCard.className = 'bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between';
+        curTag.innerText = 'Before School';
+        curTitle.innerText = 'No Active Class';
+        curRoom.innerText = "St Joseph's 2A";
+        curTimeSpan.innerText = '(Starts at 08:50)';
+
+        const diffSec = (schoolStartMin - nowMinutes) * 60 - nowSeconds;
+        const m = Math.floor(diffSec / 60);
+        const s = diffSec % 60;
+        curCountText.innerText = `Starts in ${m}m ${s}s`;
+
+        const p1 = timetableCustom[currentDayCode]?.[1];
+        nextTitle.innerText = p1 ? p1.subject : '--';
+        nextTag.innerText = 'Period 1';
+        nextRoom.innerText = p1 ? `Room ${p1.room}` : '--';
+        nextStart.innerText = '08:50';
+        return;
+      }
+
+      if (nowMinutes >= schoolEndMin) {
+        // After school finishes
+        curCard.className = 'bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between';
+        curTag.innerText = 'Finished';
+        curTitle.innerText = 'No Active Class';
+        curRoom.innerText = 'School Finished for Today 🎉';
+        curTimeSpan.innerText = '';
+        curCountText.innerText = 'Free Time';
+
+        // Calculate next day
+        const nextDayCode = (currentDayCode === 'Fri') ? 'Mon' : dayNames[dayIndex + 1];
+        const nextP1 = timetableCustom[nextDayCode]?.[1];
+        nextTitle.innerText = nextP1 ? nextP1.subject : '--';
+        nextTag.innerText = `${nextDayCode} P1`;
+        nextRoom.innerText = nextP1 ? `Room ${nextP1.room}` : '--';
+        nextStart.innerText = '08:50';
+        return;
+      }
+
+      // During school hours - check active slot
+      let activeSlot = null;
+      let activeIndex = -1;
+
+      for (let i = 0; i < slots.length; i++) {
+        const startM = timeToMin(slots[i].start);
+        const endM = timeToMin(slots[i].end);
+        if (nowMinutes >= startM && nowMinutes < endM) {
+          activeSlot = slots[i];
+          activeIndex = i;
+          break;
+        }
+      }
+
+      if (activeSlot) {
+        curCard.className = 'bg-white rounded-2xl p-5 border-2 border-blue-500 shadow-md active-class-pulse flex flex-col justify-between';
+        
+        const endM = timeToMin(activeSlot.end);
+        const diffSec = (endM - nowMinutes) * 60 - nowSeconds;
+        const m = Math.floor(diffSec / 60);
+        const s = diffSec % 60;
+        curCountText.innerText = `${m}m ${s}s left`;
+
+        if (activeSlot.isBreak) {
+          curTag.innerText = 'Break Time';
+          curTitle.innerText = ' Morning Break ☕';
+          curRoom.innerText = 'Courtyard / Assembly';
+          curTimeSpan.innerText = `(${activeSlot.start} - ${activeSlot.end})`;
+        } else if (activeSlot.isLunch) {
+          curTag.innerText = 'Lunch Break';
+          curTitle.innerText = ' Lunch Break 🍱';
+          curRoom.innerText = 'Canteen / Grounds';
+          curTimeSpan.innerText = `(${activeSlot.start} - ${activeSlot.end})`;
+        } else {
+          const pData = timetableCustom[currentDayCode]?.[activeSlot.id];
+          curTag.innerText = `Period ${activeSlot.id}`;
+          curTitle.innerText = pData ? pData.subject : 'Free Period';
+          curRoom.innerText = pData ? `Room ${pData.room}` : '--';
+          curTimeSpan.innerText = `(${activeSlot.start} - ${activeSlot.end})`;
+        }
+
+        // Up next class
+        if (activeIndex + 1 < slots.length) {
+          const nextS = slots[activeIndex + 1];
+          if (nextS.isBreak) {
+            nextTitle.innerText = 'Morning Break ☕';
+            nextTag.innerText = 'Break';
+            nextRoom.innerText = 'Grounds';
+          } else if (nextS.isLunch) {
+            nextTitle.innerText = 'Lunch Break 🍱';
+            nextTag.innerText = 'Lunch';
+            nextRoom.innerText = 'Canteen';
+          } else {
+            const nextPData = timetableCustom[currentDayCode]?.[nextS.id];
+            nextTitle.innerText = nextPData ? nextPData.subject : '--';
+            nextTag.innerText = `Period ${nextS.id}`;
+            nextRoom.innerText = nextPData ? `Room ${nextPData.room}` : '--';
+          }
+          nextStart.innerText = nextS.start;
+        } else {
+          nextTitle.innerText = 'School End 🎉';
+          nextTag.innerText = 'Home Time';
+          nextRoom.innerText = 'Dismissal';
+          nextStart.innerText = schoolEndTime;
+        }
+      }
+    }
+
+    /* ==========================================================================
+       10. GEM HUB & MODAL NAVIGATION LOGIC
+       ========================================================================== */
+    function openGemHub(tab = 'balance') {
+      openModal('gemHubModal');
+      switchGemTab(tab);
+    }
+
+    function switchGemTab(tabName) {
+      ['balance', 'shop', 'pets'].forEach(t => {
+        const btn = document.getElementById(`tabBtn-${t}`);
+        const content = document.getElementById(`gemTab-${t}`);
+        if (t === tabName) {
+          btn.className = 'px-4 py-2.5 border-b-2 border-blue-600 text-blue-600 font-bold';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'px-4 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 font-bold';
+          content.classList.add('hidden');
+        }
+      });
+      renderShopAndPets();
+    }
+
+    function resetGemsConfirmation() {
+      if (confirm('Are you sure you want to reset your gem balance to 0?')) {
+        gems = 0;
+        saveAllState();
+        updateUI();
+        showToast('Gems reset to 0', 'info');
+      }
+    }
+
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('scannedImagePreview').src = evt.target.result;
+        document.getElementById('photoPreviewArea').classList.remove('hidden');
+        showToast('Schedule photo loaded & compared!', 'info');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    /* ==========================================================================
+       11. STATE SYNC & INITIALIZATION
+       ========================================================================== */
+    function populateSubjectDropdowns() {
+      const hwSelect = document.getElementById('hwSubjectSelect');
+      const testSelect = document.getElementById('testSubjectSelect');
+      const slotSelect = document.getElementById('editSlotSubjectSelect');
+
+      hwSelect.innerHTML = '';
+      testSelect.innerHTML = '';
+      slotSelect.innerHTML = '';
+
+      Object.keys(SUBJECTS).forEach(subj => {
+        const opt1 = document.createElement('option');
+        opt1.value = subj;
+        opt1.textContent = subj;
+        hwSelect.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = subj;
+        opt2.textContent = subj;
+        testSelect.appendChild(opt2);
+
+        const opt3 = document.createElement('option');
+        opt3.value = subj;
+        opt3.textContent = subj;
+        slotSelect.appendChild(opt3);
+      });
+    }
+
+    function saveAllState() {
+      localStorage.setItem('oisin_gems_count', gems.toString());
+      localStorage.setItem('oisin_homework_list', JSON.stringify(homeworkList));
+      localStorage.setItem('oisin_tests_list', JSON.stringify(testsList));
+      localStorage.setItem('oisin_timetable_custom', JSON.stringify(timetableCustom));
+      localStorage.setItem('oisin_inventory_data', JSON.stringify(inventory));
+      localStorage.setItem('oisin_pets_data', JSON.stringify(petsData));
+      localStorage.setItem('oisin_pet_decay_timestamp', petDecayLastTimestamp.toString());
+    }
+
+    function updateUI() {
+      document.getElementById('headerGemCount').innerText = gems;
+      document.getElementById('gemHubBalance').innerText = `${gems} 💎`;
+      document.getElementById('rulesTabBalance').innerText = gems;
+
+      renderHomework();
+      renderTests();
+      renderTimetableGrid();
+      renderShopAndPets();
+      updateLiveClassStatus();
+    }
+
+    // Window load handler
+    window.onload = function() {
+      populateSubjectDropdowns();
+      updatePetDecay();
+      updateUI();
+      updateHwDueClassText();
+
+      // Start Dublin second clock
+      setInterval(updateLiveClassStatus, 1000);
+      
+      // Periodic pet health decay check
+      setInterval(updatePetDecay, 60000);
+    };
+  </script>
+</body>
+</html>
